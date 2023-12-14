@@ -1,0 +1,26 @@
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
+
+import "forge-std/console2.sol";
+
+contract DonationBox {
+    uint totalDonations = 0; // total ETH donated through contract
+    address payable admin; // contract creator
+
+    event DonationTransferred(address sender, uint amount);
+
+    constructor() {
+        admin = payable(msg.sender);
+    }
+
+    function donate() public payable {
+        (bool sent, ) = admin.call{value: msg.value}("");
+        require(sent, "Failed to send donation");
+        totalDonations += msg.value;
+        emit DonationTransferred(msg.sender, msg.value);
+    }
+
+    function getTotalDonations() public view returns (uint) {
+        return totalDonations;
+    }
+}
