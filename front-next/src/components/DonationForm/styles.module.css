@@ -9,7 +9,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   max-width: 350px;
   width: 100%;
   gap: 8px;
@@ -19,6 +19,11 @@
   opacity: 0;
   transform: translateX(-30px);
   animation: fade-enter-active 0.5s ease-out forwards;
+}
+
+.placeholder {
+  visibility: hidden;
+  height: 77px;
 }
 
 .error {

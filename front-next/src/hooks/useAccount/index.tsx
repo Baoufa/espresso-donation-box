@@ -16,6 +16,7 @@ export function useAccount() {
   const [ens, setEns] = useState<FetchEnsNameResult | null>();
   const [ensLoading, setEnsLoading] = useState(true);
   const [ensError, setEnsError] = useState<Error | null>(null);
+  const [ensSettled, setEnsSettled] = useState(false);
   const [balance, setBalance] = useState<bigint | null>(null);
   const [balanceLoading, setBalanceLoading] = useState(true);
   const [balanceError, setBalanceError] = useState<Error | null>(null);
@@ -26,6 +27,7 @@ export function useAccount() {
     setEnsLoading(true);
     if (cachedEns.has(address)) {
       setEns(cachedEns.get(address));
+      setEnsSettled(true);
       setEnsLoading(false);
       return;
     }
@@ -39,6 +41,7 @@ export function useAccount() {
       })
       .catch(setEnsError)
       .finally(() => {
+        setEnsSettled(true);
         setEnsLoading(false);
       });
   }
@@ -72,6 +75,12 @@ export function useAccount() {
     if (!address) {
       setMinifiedAddress(null);
       setEns(null);
+      setBalance(null);
+      setBalanceLoading(true);
+      setBalanceError(null);
+      setEnsLoading(true);
+      setEnsError(null);
+      setEnsSettled(false);
     }
   }, [address]);
 
@@ -84,5 +93,6 @@ export function useAccount() {
     ens,
     ensLoading,
     ensError,
+    ensSettled,
   };
 }

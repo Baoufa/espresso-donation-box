@@ -34,7 +34,7 @@ export default function Form() {
     donateTxHash,
     donateIsSuccess,
   } = useContract();
-  const { address, ens, minifiedAddress } = useAccount();
+  const { address, ens, ensSettled, minifiedAddress } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { switchNetwork } = useSwitchNetwork();
   const chainId = useChainId();
@@ -113,9 +113,13 @@ export default function Form() {
         <>
           <Title>
             Welcome
-            <div className={classes.fadeEnter}>
-              {ens ? ens : minifiedAddress}
-            </div>
+            {ensSettled ? (
+              <div className={classes.fadeEnter}>
+                {ensSettled ? (ens ? ens : minifiedAddress) : ""}
+              </div>
+            ) : (
+              <div className={classes.placeholder} />
+            )}
           </Title>
           <div className={classes.form}>
             <Input
