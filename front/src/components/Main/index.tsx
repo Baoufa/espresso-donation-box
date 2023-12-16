@@ -4,20 +4,15 @@ import AnimatedLogo from "../AnimatedLogo";
 import classes from "./styles.module.css";
 import Total from "../Total";
 import DonationForm from "../DonationForm";
-import { useState } from "react";
 import { useAccount } from "wagmi";
+import { Donation } from "@/hooks/useContract/service";
 
-// interface HeroProps {
-//   totalDonated: bigint | null;
-// }
+interface MainProps {
+  donation: Donation | null;
+}
 
-export default function Hero() {
-  const [currency, setCurrency] = useState<"ETH" | "USD">("ETH");
+export default function Main({ donation }: MainProps) {
   const { address } = useAccount();
-
-  function toggleCurrency() {
-    setCurrency(currency === "ETH" ? "USD" : "ETH");
-  }
 
   return (
     <main key={address || "reset-app-state"} className={classes.hero}>
@@ -25,7 +20,7 @@ export default function Hero() {
         <DonationForm />
         <AnimatedLogo className={classes.absolute} />
       </div>
-      <Total toggleCurrency={toggleCurrency} />
+      <Total donation={donation} />
     </main>
   );
 }

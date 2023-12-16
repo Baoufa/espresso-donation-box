@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+"use client";
+
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { usePublicClient, useFeeData, useWalletClient } from "wagmi";
 import {
   GetContractResult,
@@ -7,23 +9,25 @@ import {
   getContract,
 } from "@wagmi/core";
 import { ABI, CHAIN_ID, contractAddress } from "@/constants";
-import { createWalletClient, formatEther, http } from "viem";
-import { localFork } from "./contract";
+import { getDonation } from "./service";
 
-export default function useContract() {
+function useContractHook() {
+  const DONATE_GAS_COST = BigInt(35183);
   const publicClient = usePublicClient();
   const { data: feeData } = useFeeData({
     chainId: CHAIN_ID,
     cacheTime: 10_000,
   });
-  const DONATE_GAS_COST = BigInt(35183);
-
-  const [totalDonations, setTotalDonations] = useState<bigint | null>(null);
+  const [totalDonationsInEth, setTotalDonationsInEth] = useState<bigint | null>(
+    null
+  );
+  const [totalDonationsInUsd, setTotalDonationsInUSd] = useState<
+    number | null
+  >();
   const [totalDonationsIsLoading, setTotalDonationsIsLoading] = useState(true);
   const [totalDonationsError, setTotalDonationsError] = useState<Error | null>(
     null
   );
-
   const [donateIsLoading, setDonateIsLoading] = useState(false);
   const [donateError, setDonateError] = useState<Error | null>(null);
   const [donateTxHash, setDonateTxHash] = useState<Hash | null>(null);
@@ -40,19 +44,11 @@ export default function useContract() {
     },
   });
 
-  // LOCAL WALLET CLIENT
-  const client = createWalletClient({
-    chain: localFork,
-    account: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-    transport: http(),
-  });
-
   const donationContract = useRef<GetContractResult<typeof ABI, WalletClient>>(
     getContract({
       address: contractAddress,
       abi: ABI,
       chainId: CHAIN_ID,
-      walletClient: client,
     })
   );
 
@@ -60,7 +56,7 @@ export default function useContract() {
     setDonateIsLoading(true);
     try {
       await donationContract.current.simulate.donate({
-        value: BigInt(1),
+        value: BigInt(value),
       });
       const hash = await donationContract.current.write.donate();
       setDonateTxHash(hash);
@@ -79,27 +75,25 @@ export default function useContract() {
 
   function getTotalDonations(): Promise<void> {
     setTotalDonationsIsLoading(true);
-    return donationContract.current.read
-      .getTotalDonations()
-      .then((res) => setTotalDonations(res as bigint))
+    return getDonation()
+      .then((res) => {
+        setTotalDonationsInEth(res.totalDonationInEth);
+        setTotalDonationsInUSd(res.totalDonationInUsd);
+      })
       .catch(setTotalDonationsError)
       .finally(() => setTotalDonationsIsLoading(false));
   }
 
   useEffect(() => {
-    if (!donationContract) return;
-
     getTotalDonations();
-    const timeout = setInterval(getTotalDonations, 10000);
     const unwatch = donationContract.current.watchEvent.DonationTransferred({
-      onLogs: (_) => {
+      onLogs: (logs) => {
+        console.log("onLogs", logs);
         getTotalDonations();
       },
     });
-
     return () => {
-      clearTimeout(timeout);
-      unwatch();
+      unwatch;
     };
   }, []);
 
@@ -111,8 +105,29 @@ export default function useContract() {
     donateError,
     donateTxHash,
     donateIsSuccess,
-    totalDonations,
+    getTotalDonations,
+    totalDonationsInEth,
+    totalDonationsInUsd,
     totalDonationsIsLoading,
     totalDonationsError,
   };
+}
+
+type UseContractHook = ReturnType<typeof useContractHook>;
+const ContractContext = createContext<UseContractHook | null>(null);
+
+export default function useContract(): UseContractHook {
+  const context = useContext(ContractContext);
+  if (!context) {
+    throw new Error("useContractHook must be used within a ContractProvider");
+  }
+  return context;
+}
+
+export function ContractProvider({ children }: { children: React.ReactNode }) {
+  const hook = useContractHook();
+
+  return (
+    <ContractContext.Provider value={hook}>{children}</ContractContext.Provider>
+  );
 }

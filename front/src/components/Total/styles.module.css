@@ -26,8 +26,16 @@
   font-weight: 300;
 }
 
+.placeholder {
+  height: 128.5px;
+}
+
 @media (max-width: 652px) {
   .active {
     font-size: 48px;
+  }
+
+  .placeholder {
+    height: 107.5px;
   }
 }

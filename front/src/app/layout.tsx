@@ -5,6 +5,7 @@ import Box from "@/components/Box";
 import Footer from "@/components/Footer";
 import fonts from "@/styles/fonts";
 import NavBar from "@/components/NavBar";
+import { ContractProvider } from "@/hooks/useContract";
 
 export const metadata = {
   title: "Espress Donation Box",
@@ -26,11 +27,13 @@ export default function RootLayout({
     >
       <body>
         <WagmiProvider>
-          <Box>
-            <NavBar />
-            {children}
-            <Footer />
-          </Box>
+          <ContractProvider>
+            <Box>
+              <NavBar />
+              {children}
+              <Footer />
+            </Box>
+          </ContractProvider>
         </WagmiProvider>
       </body>
     </html>

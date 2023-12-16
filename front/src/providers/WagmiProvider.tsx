@@ -1,22 +1,20 @@
 "use client";
 
 import "@rainbow-me/rainbowkit/styles.css";
-
 import { useState, useEffect } from "react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { localFork } from "@/hooks/useContract/contract";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, localFork],
+  [mainnet, sepolia],
   [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
   appName: "Espresso Donation Box",
-  projectId: "716d4c812e75bbfd709e56d9e39a6fc6",
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID as string,
   chains,
 });
 

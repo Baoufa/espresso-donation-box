@@ -1,22 +1,10 @@
 import Main from "@/components/Main";
-
-// const client = createPublicClient({
-//   chain: sepolia,
-//   transport: http(),
-// });
-
-// export const contract = getContract({
-//   address: contractAddress,
-//   abi: ABI,
-//   publicClient: client,
-// });
+import { getDonation } from "@/hooks/useContract/service";
 
 async function Page() {
-  // const totalDonated = (await contract.read.getTotalDonations()) as
-  //   | bigint
-  //   | null;
+  let donation = await getDonation(3600);
 
-  return <Main />;
+  return <Main donation={donation} />;
 }
 
 export default Page;
