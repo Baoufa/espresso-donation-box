@@ -1,0 +1,14 @@
+.animatedLogo {
+  width: 40vw;
+  height: 40vw;
+  min-width: 400px;
+  min-height: 400px;
+  z-index: 0;
+}
+
+@media (max-width: 652px) {
+  .animatedLogo {
+    min-width: 40vw;
+    min-height: 40vw;
+  }
+}

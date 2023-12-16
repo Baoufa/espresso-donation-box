@@ -92,8 +92,7 @@ export default function useContract() {
     getTotalDonations();
     const timeout = setInterval(getTotalDonations, 10000);
     const unwatch = donationContract.current.watchEvent.DonationTransferred({
-      onLogs: (logs) => {
-        console.log(logs);
+      onLogs: (_) => {
         getTotalDonations();
       },
     });

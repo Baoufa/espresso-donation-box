@@ -3,6 +3,7 @@
   --light-color: #fcebde;
   --contrast-color: #fff;
   --animation: "0.15s ease-in-out";
+  --breakpoint: 652px;
 }
 
 * {

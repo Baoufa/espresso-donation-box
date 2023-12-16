@@ -17,6 +17,11 @@
   font-size: inherit;
   z-index: 1;
 }
+@media (max-width: 652px) {
+  .input {
+    width: calc(100vw - 16px - 48px);
+  }
+}
 
 .input::placeholder {
   color: var(--light-color);

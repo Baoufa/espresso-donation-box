@@ -43,6 +43,13 @@ export default function Form() {
     window.open(etherscanUrl, "_blank");
   };
 
+  function submit() {
+    validate();
+    if (value) {
+      donate(BigInt(1));
+    }
+  }
+
   useEffect(() => {
     if (!address) {
       setStep(Step.Connect);
@@ -128,10 +135,7 @@ export default function Form() {
               placeholder="0.00"
               validate={validate}
             />
-            <Button
-              disabled={Boolean(error)}
-              onClick={() => value && donate(BigInt(1))}
-            >
+            <Button disabled={Boolean(error)} onClick={submit}>
               Donate on Sepolia
             </Button>
             {error && <div className={classes.error}>{error.message}</div>}
@@ -142,9 +146,9 @@ export default function Form() {
       {step === Step.Confirm && (
         <>
           <Title>
-            Sign the transaction in
+            Sign the transaction
             <br />
-            your wallet
+            in your wallet
           </Title>
           <div className={classes.form}>
             <Input
@@ -202,10 +206,7 @@ export default function Form() {
               placeholder="0.00"
               validate={validate}
             />
-            <Button
-              disabled={Boolean(error)}
-              onClick={() => value && donate(BigInt(1))}
-            >
+            <Button disabled={Boolean(error)} onClick={submit}>
               Try again
             </Button>
             {error && <div className={classes.error}>{error.message}</div>}

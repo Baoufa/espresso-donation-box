@@ -7,11 +7,11 @@ import DonationForm from "../DonationForm";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 
-interface HeroProps {
-  totalDonated: bigint | null;
-}
+// interface HeroProps {
+//   totalDonated: bigint | null;
+// }
 
-export default function Hero({ totalDonated }: HeroProps) {
+export default function Hero() {
   const [currency, setCurrency] = useState<"ETH" | "USD">("ETH");
   const { address } = useAccount();
 

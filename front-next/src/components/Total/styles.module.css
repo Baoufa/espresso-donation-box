@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  cursor: pointer;
+  z-index: 1;
+  animation: color var(--animation);
+}
+
+.container:hover {
+  color: var(--light-color);
+}
+
+.active {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 64px;
+  font-weight: 500;
+}
+
+.inactive {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 20px;
+  font-weight: 300;
+}
+
+@media (max-width: 652px) {
+  .active {
+    font-size: 48px;
+  }
+}

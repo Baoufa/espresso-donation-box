@@ -51,6 +51,12 @@ export default function useForm() {
       }
 
       const maxValue = getMaxValue();
+      if (maxValue === BigInt(0)) {
+        setError(new Error("You don't have ETH, please use a sepolia faucet"));
+        setValue(null);
+        return;
+      }
+
       if (maxValue && inputAsBigInt > maxValue) {
         setError(
           new Error(

@@ -1,5 +1,6 @@
 "use client";
 
+import classes from "./styles.module.css";
 import { useRef } from "react";
 import Lottie, { LottieRef } from "lottie-react";
 import animation from "./lottie.json";
@@ -14,17 +15,10 @@ export default function AnimatedLogo({ className, style }: AnimatedLogoProps) {
 
   return (
     <Lottie
-      className={className}
+      className={`${classes.animatedLogo} ${className}`}
       lottieRef={lottieRef as any}
       animationData={animation}
-      style={{
-        width: "40vw",
-        height: "40vw",
-        minWidth: 400,
-        minHeight: 400,
-        zIndex: 0,
-        ...style,
-      }}
+      style={style}
     />
   );
 }

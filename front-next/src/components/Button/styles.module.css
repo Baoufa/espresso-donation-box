@@ -33,3 +33,9 @@
   background-color: var(--light-color);
   cursor: default;
 }
+
+@media (max-width: 652px) {
+  .button {
+    width: 100%;
+  }
+}
