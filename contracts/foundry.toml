@@ -5,6 +5,7 @@ libs = ["lib"]
 
 bytecode_hash = "none"
 solc_version = "0.8.21"
+gas_reports = ["*"]
 
 [rpc_endpoints]
 sepolia = "https://rpc.ankr.com/eth_sepolia"

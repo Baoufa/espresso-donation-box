@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px;
+  width: 100%;
+  gap: 8px;
+}
+
+.fadeEnter {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: fade-enter-active 0.5s ease-out forwards;
+}
+
+.error {
+  position: absolute;
+  bottom: -20px;
+  left: 10px;
+  color: var(--light-color);
+  font-size: 12px;
+}
+
+.link {
+  flex-shrink: 0;
+  animation: color var(--animation);
+}
+
+.link:hover {
+  color: var(--light-color);
+}
+
+@keyframes fade-enter-active {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}

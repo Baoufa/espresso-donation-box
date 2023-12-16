@@ -1,0 +1,35 @@
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  flex-shrink: 0;
+
+  border-radius: 100px;
+  padding: 10px 16px;
+  height: 40px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  background-color: var(--contrast-color);
+  color: var(--accent-color);
+  outline: none;
+  border: none;
+  animation: all var(--animation);
+  z-index: 1;
+}
+
+@media (cursor: pointer) {
+  .button {
+    cursor: pointer;
+  }
+}
+.button:hover,
+.button:active {
+  background-color: var(--light-color);
+}
+
+.button:disabled {
+  background-color: var(--light-color);
+  cursor: default;
+}

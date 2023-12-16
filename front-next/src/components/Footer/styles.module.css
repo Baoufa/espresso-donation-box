@@ -1,0 +1,33 @@
+.footer{
+  display: flex;
+  flex-direction: column;
+}
+
+.footer::before{
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--contrast-color);
+  margin-bottom: 24px;
+  border-radius: 100px;
+}
+
+.innerFooter{
+  display: flex;
+  gap: 22px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.link{
+  display: flex;
+  gap: 6px;
+  align-items: center;  
+  animation: color var(--animation);
+}
+
+.link:hover{
+  color: var(--light-color);
+}
+

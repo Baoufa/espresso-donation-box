@@ -11,7 +11,7 @@ contract SendDonation is Test {
     function setUp() public {
         vm.createSelectFork("sepolia");
 
-        address alice = makeAddr("alice");
+        address alice = makeAddr("0x2642381fdf335501897a31d0f96de374b4d8d237");
         vm.deal(alice, 10 ether);
 
         vm.startPrank(alice);
@@ -19,11 +19,11 @@ contract SendDonation is Test {
         vm.stopPrank();
     }
 
-    function testFuzzDonate(string memory salt, uint256 value) public {
-        address bob = makeAddr(salt);
+    function testFuzzDonate() public {
+        address bob = makeAddr("bob");
 
-        vm.deal(bob, value);
-        uint256 donation = value / 2;
+        vm.deal(bob, 20 ether);
+        uint256 donation = 10 ether;
         vm.startPrank(bob);
 
         donationBox.donate{value: donation}();

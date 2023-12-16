@@ -1,0 +1,23 @@
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+
+}
+
+.absolute {
+  position: absolute;
+  right: 0;
+  width: 100%;
+}

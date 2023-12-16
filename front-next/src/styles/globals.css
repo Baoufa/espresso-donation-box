@@ -1,0 +1,27 @@
+:root {
+  --accent-color: #b57236;
+  --light-color: #fcebde;
+  --contrast-color: #fff;
+  --animation: "0.15s ease-in-out";
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+  max-width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  color: var(--contrast-color);
+  font-family: var(--font-pp-neue-montreal);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

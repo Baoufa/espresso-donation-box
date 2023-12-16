@@ -1,0 +1,6 @@
+anvil --fork-url https://1rpc.io/sepolia	
+
+EXPORT ALICE=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+EXPORT CONTRACT=0x2642381fdf335501897a31d0f96de374b4d8d237
+
+cast send --from $ALICE --unlocked $CONTRACT "donate()" --value 0.1ether
