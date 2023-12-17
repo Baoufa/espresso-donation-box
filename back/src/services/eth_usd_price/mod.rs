@@ -30,8 +30,7 @@ impl EthUsdPrice {
         let mut cached_price = self.cached_price.lock().await;
 
         if let Some((price, timestamp)) = *cached_price {
-            if timestamp.elapsed() < Duration::from_secs(600) {
-                println!("Using cached price");
+            if timestamp.elapsed() < Duration::from_secs(60) {
                 return Ok(price);
             }
         }
@@ -55,8 +54,6 @@ impl EthUsdPrice {
 
         // Update the cache
         *cached_price = Some((new_price, Instant::now()));
-
-        println!("Updating cached price");
         Ok(new_price)
     }
 }

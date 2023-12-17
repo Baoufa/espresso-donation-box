@@ -19,29 +19,32 @@ pub struct AppState {
 }
 
 impl AppState {
-    fn new() -> Self {
+    fn try_new() -> Result<Self, anyhow::Error> {
         let client = Arc::new(Client::new());
         let eth_usd_price = EthUsdPrice::new(Arc::clone(&client), None);
         let donation_box = DonationBox::new(
             Arc::clone(&client),
             "https://sepolia.gateway.tenderly.co",
             "0x2642381fdf335501897a31d0f96de374b4d8d237",
-        );
-        AppState {
+        )?;
+
+        Ok(AppState {
             client,
             eth_usd_price,
-            donation_box: donation_box.unwrap(),
-        }
+            donation_box,
+        })
     }
 }
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
+    let app_state = AppState::try_new().expect("Failed to initialize AppState");
+
     let router = Router::new()
         .route("/", get(handlers::health_check))
         .route("/donation", get(donation))
         .layer(cors_layer())
-        .with_state(AppState::new());
+        .with_state(app_state);
 
     Ok(router.into())
 }
