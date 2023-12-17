@@ -93,9 +93,9 @@ export default function Form() {
       {step === Step.Connect && (
         <>
           <Title>
-            Donators help
+            Donators
             <br />
-            Espresso helps rollups:
+            help rollups:
           </Title>
           <Button onClick={openConnectModal}>
             Connect your wallet to donate
@@ -106,7 +106,7 @@ export default function Form() {
       {step === Step.Switch && (
         <>
           <Title>
-            Hey {ens ? ens : minifiedAddress}
+            Hey {ensSettled ? (ens ? ens : minifiedAddress) : ""}
             <br />
             {"You're not on Sepolia"}
           </Title>

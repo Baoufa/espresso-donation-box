@@ -5,7 +5,10 @@ export default function Footer() {
   return (
     <footer className={classes.footer}>
       <div className={classes.innerFooter}>
-        <a href="/" className={classes.link}>
+        <a
+          href="https://github.com/Baoufa/espresso-donation-box"
+          className={classes.link}
+        >
           <GitHubLogoIcon />
           Source code
         </a>
