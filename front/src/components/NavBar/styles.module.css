@@ -9,6 +9,13 @@
 .disconnect {
   cursor: pointer;
   z-index: 1;
+  color: inherit;
+  transition: color 0.15s ease-in-out;
+}
+
+.disconnect:hover,
+.disconnect:active {
+  color: var(--light-color);
 }
 
 .imageDesktop {

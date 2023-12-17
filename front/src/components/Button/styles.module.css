@@ -15,7 +15,7 @@
   color: var(--accent-color);
   outline: none;
   border: none;
-  animation: all var(--animation);
+  transition: background-color 0.15s ease-in-out;
   z-index: 1;
 }
 

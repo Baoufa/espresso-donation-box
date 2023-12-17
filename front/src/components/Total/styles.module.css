@@ -4,7 +4,8 @@
   align-self: flex-start;
   cursor: pointer;
   z-index: 1;
-  animation: color var(--animation);
+  color: inherit;
+  transition: color 0.15s ease-in-out;
 }
 
 .container:hover {
