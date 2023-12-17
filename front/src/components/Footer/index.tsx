@@ -8,6 +8,8 @@ export default function Footer() {
         <a
           href="https://github.com/Baoufa/espresso-donation-box"
           className={classes.link}
+          target="_blank"
+          rel="noreferrer"
         >
           <GitHubLogoIcon />
           Source code

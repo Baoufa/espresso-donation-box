@@ -46,7 +46,7 @@ export default function Form() {
   function submit() {
     validate();
     if (value) {
-      donate(BigInt(1));
+      donate(value);
     }
   }
 

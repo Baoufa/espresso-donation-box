@@ -7,6 +7,7 @@ import {
   Hash,
   WalletClient,
   getContract,
+  writeContract,
 } from "@wagmi/core";
 import { ABI, CHAIN_ID, contractAddress } from "@/constants";
 import { getDonation } from "./service";
@@ -55,10 +56,10 @@ function useContractHook() {
   async function donate(value: bigint) {
     setDonateIsLoading(true);
     try {
-      await donationContract.current.simulate.donate({
-        value: BigInt(value),
+      const { request } = await donationContract.current.simulate.donate({
+        value,
       });
-      const hash = await donationContract.current.write.donate();
+      const { hash } = await writeContract(request);
       setDonateTxHash(hash);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       if (receipt.status == "reverted") {
@@ -93,7 +94,7 @@ function useContractHook() {
       },
     });
     return () => {
-      unwatch;
+      unwatch();
     };
   }, []);
 
