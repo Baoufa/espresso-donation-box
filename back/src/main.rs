@@ -38,6 +38,7 @@ impl AppState {
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
     let router = Router::new()
+        .route("/", get(handlers::health_check))
         .route("/donation", get(donation))
         .layer(cors_layer())
         .with_state(AppState::new());

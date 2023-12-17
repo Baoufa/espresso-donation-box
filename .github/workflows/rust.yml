@@ -1,0 +1,41 @@
+name: Rust Back Workflow
+
+on:
+  pull_request:
+  push:
+      branches: [main]
+
+jobs:
+  lint:
+    name: code lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Setup rust cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check
+        run: cd back && cargo check --all --all-features
+
+      - name: Format
+        run: cd back && cargo fmt --all -- --check
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout the code
+          uses: actions/checkout@v3
+
+        - name: Install toolchain
+          uses: dtolnay/rust-toolchain@stable
+
+        - name: Test
+          run: cd back && cargo test

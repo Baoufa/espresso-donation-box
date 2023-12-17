@@ -12,36 +12,26 @@ pub struct Donation {
 
 #[derive(Debug, thiserror::Error)]
 pub enum DonationError {
-    #[error("Failed to get USD Price: {0}")]
-    FailedToGetUSDPrice(Error),
     #[error("Failed to get donation total: {0}")]
-    FailedToGetDonationTotal(Error),
+    FailedToGetDonation(Error),
 }
 
 impl IntoResponse for DonationError {
     fn into_response(self) -> axum::response::Response {
         let status_code = match self {
-            DonationError::FailedToGetUSDPrice(_) => axum::http::StatusCode::INTERNAL_SERVER_ERROR,
-            DonationError::FailedToGetDonationTotal(_) => {
-                axum::http::StatusCode::INTERNAL_SERVER_ERROR
-            }
+            DonationError::FailedToGetDonation(_) => axum::http::StatusCode::INTERNAL_SERVER_ERROR,
         };
         (status_code, self.to_string()).into_response()
     }
 }
 
 pub async fn donation(State(app_state): State<AppState>) -> Result<Json<Donation>, DonationError> {
-    let eth_usd_price = app_state
-        .eth_usd_price
-        .get_eth_usd_price()
-        .await
-        .map_err(|e| DonationError::FailedToGetUSDPrice(e))?;
+    let eth_usd_price_future = app_state.eth_usd_price.get_eth_usd_price();
+    let donation_total_future = app_state.donation_box.read_total_donation();
 
-    let donation_total = app_state
-        .donation_box
-        .read_total_donation()
-        .await
-        .map_err(|e| DonationError::FailedToGetDonationTotal(e.into()))?;
+    let (eth_usd_price, donation_total) =
+        tokio::try_join!(eth_usd_price_future, donation_total_future)
+            .map_err(|e| DonationError::FailedToGetDonation(e.into()))?;
 
     let donation = Donation {
         eth_usd_price,
@@ -49,4 +39,8 @@ pub async fn donation(State(app_state): State<AppState>) -> Result<Json<Donation
     };
 
     Ok(Json(donation))
+}
+
+pub async fn health_check() -> &'static str {
+    "OK"
 }
