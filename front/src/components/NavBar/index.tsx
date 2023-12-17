@@ -10,6 +10,10 @@ export default function NavBar() {
   const { disconnect } = useDisconnect();
   const { address } = useAccount();
 
+  function handleReload() {
+    window.location.reload();
+  }
+
   return (
     <div className={classes.navbar}>
       <Image
@@ -18,6 +22,7 @@ export default function NavBar() {
         width={247}
         height={72}
         alt="espresso logo"
+        onClick={handleReload}
       />
       <Image
         className={classes.imageMobile}
@@ -25,6 +30,7 @@ export default function NavBar() {
         width={71}
         height={72}
         alt="espresso logo"
+        onClick={handleReload}
       />
 
       {address && disconnect && (

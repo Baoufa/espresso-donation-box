@@ -13,10 +13,12 @@
 
 .imageDesktop {
   display: block;
+  cursor: pointer;
 }
 
 .imageMobile {
   display: none;
+  cursor: pointer;
 }
 
 @media (max-width: 652px) {
